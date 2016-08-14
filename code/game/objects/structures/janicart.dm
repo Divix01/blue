@@ -26,14 +26,22 @@
 
 
 /obj/structure/janitorialcart/AltClick()
+
+	if(mymop || !Adjacent(usr))
+		..()
+		return
+
 	var/obj/item/I = usr.get_active_hand()
-	if(istype(I, /obj/item/weapon/mop) && !mymop)
-		usr.drop_item()
-		mymop = I
-		I.loc = src
-		update_icon()
-		updateUsrDialog()
-		usr << "<span class='notice'>You put [I] into [src].</span>"
+	if(!istype(I, /obj/item/weapon/mop))
+		..()
+		return
+
+	usr.drop_item()
+	mymop = I
+	I.loc = src
+	update_icon()
+	updateUsrDialog()
+	usr << "<span class='notice'>You put [I] into [src].</span>"
 
 
 /obj/structure/janitorialcart/attackby(obj/item/I, mob/user)
